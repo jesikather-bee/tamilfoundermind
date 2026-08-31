@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  TODO before publishing:
+  1. Replace every href="#" (YouTube, Instagram, playlist links) with your real URLs — search "TODO" in this file.
+  2. Replace mailto:hello@example.com with your real contact email.
+  3. Swap the 3 placeholder video cards near the bottom with real thumbnails + titles.
+  4. Add Tamil copy back in whenever you're ready — this pass is English-only on request.
+  5. If you register a custom domain later, add a file literally named "CNAME" (no extension) at the repo root containing just the domain, e.g. tamilfoundermind.com
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamil Founder Mind — Startup Thinking, In Tamil</title>
+<meta name="description" content="Real startup lessons in Tamil — validation, pricing, hiring, and cash flow, explained the way you'd explain it to a friend, not a pitch deck.">
+<meta property="og:title" content="Tamil Founder Mind">
+<meta property="og:description" content="Real startup lessons in Tamil — the way you'd explain it to a friend, not a pitch deck.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#FCF7FB;
+    --ink:#1F1229;
+    --ink-soft:#4A3A57;
+    --pink:#FD81FF;
+    --purple:#6807A9;
+    --teal:#04D0B5;
+    --white:#FFF9FE;
+    --font-display:'Baloo Thambi 2', sans-serif;
+    --font-body:'Work Sans', sans-serif;
+    --max:1120px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-body);
+    color:var(--ink);
+    background:var(--paper);
+    line-height:1.6;
+    font-size:17px;
+    overflow-x:hidden;
+  }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 1.5rem; }
+  h1,h2,h3{ font-family:var(--font-display); line-height:1.15; font-weight:700; }
+  #top,#approach,#videos,#contact{ scroll-margin-top:5rem; }
+  a{ color:inherit; }
+
+  /* header */
+  .site-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--paper);
+    border-bottom:2px solid var(--ink);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1.5rem; flex-wrap:wrap; row-gap:0.75rem;
+    padding-top:1rem; padding-bottom:1rem;
+  }
+  .wordmark{
+    font-family:var(--font-display); font-weight:700;
+    font-size:1.35rem; text-decoration:none; color:var(--ink);
+  }
+  .nav-links{ display:flex; gap:2rem; }
+  .nav-links a{
+    text-decoration:none; font-weight:500; font-size:0.95rem; color:var(--ink-soft);
+  }
+  .nav-links a:hover{ color:var(--ink); }
+
+  .btn{
+    display:inline-block; font-family:var(--font-body); font-weight:600;
+    font-size:0.95rem; padding:0.7rem 1.4rem; text-decoration:none;
+    border:2px solid var(--ink); background:var(--pink); color:var(--ink);
+  }
+  .btn:hover{ background:var(--ink); color:var(--pink); }
+
+  /* hero */
+  .hero{ position:relative; padding-top:5rem; padding-bottom:5rem; }
+  .hero-content{ max-width:760px; position:relative; z-index:2; }
+  .hero h1{
+    font-size:clamp(2.75rem, 5vw + 1rem, 4.75rem);
+    margin-bottom:1.25rem;
+  }
+  .hero-sub{
+    font-size:1.2rem; color:var(--ink-soft); max-width:52ch; margin-bottom:2rem;
+  }
+  .hero-ctas{ display:flex; align-items:center; gap:1.75rem; flex-wrap:wrap; }
+  .link-scroll{
+    font-weight:600; text-decoration:none; color:var(--ink);
+    border-bottom:2px solid var(--teal);
+  }
+
+  /* decorative floating swatches — echoes the brand color-chip reference */
+  .hero-shapes{ position:absolute; top:0; right:0; width:340px; height:100%; pointer-events:none; z-index:1; }
+  .shape{ position:absolute; }
+  .shape-pink{ width:150px; height:190px; background:var(--pink); top:8%; right:22%; transform:rotate(-8deg); }
+  .shape-purple{ width:130px; height:170px; background:var(--purple); top:38%; right:0; transform:rotate(6deg); }
+  .shape-teal{ width:110px; height:140px; background:var(--teal); top:58%; right:32%; transform:rotate(-5deg); }
+
+  @media (prefers-reduced-motion:no-preference){
+    .hero-content{ animation:fadeUp .7s ease-out; }
+    .shape-pink{ animation:float1 7s ease-in-out infinite; }
+    .shape-purple{ animation:float2 8.5s ease-in-out infinite; }
+    .shape-teal{ animation:float3 6.5s ease-in-out infinite; }
+  }
+  @keyframes fadeUp{
+    from{ opacity:0; transform:translateY(16px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+  @keyframes float1{ 0%,100%{ transform:rotate(-8deg) translateY(0);} 50%{ transform:rotate(-8deg) translateY(-14px);} }
+  @keyframes float2{ 0%,100%{ transform:rotate(6deg) translateY(0);} 50%{ transform:rotate(6deg) translateY(12px);} }
+  @keyframes float3{ 0%,100%{ transform:rotate(-5deg) translateY(0);} 50%{ transform:rotate(-5deg) translateY(-10px);} }
+
+  @media (max-width:860px){
+    .hero-shapes{ display:none; }
+  }
+
+  /* scroll-reveal system */
+  .reveal{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{ opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.in-view{ opacity:1; transform:translateY(0); }
+    .phase:nth-child(1){ transition-delay:0s; }
+    .phase:nth-child(2){ transition-delay:.12s; }
+    .phase:nth-child(3){ transition-delay:.24s; }
+    .persona:nth-child(1){ transition-delay:0s; }
+    .persona:nth-child(2){ transition-delay:.12s; }
+    .video-card:nth-child(1){ transition-delay:0s; }
+    .video-card:nth-child(2){ transition-delay:.12s; }
+    .video-card:nth-child(3){ transition-delay:.24s; }
+  }
+
+  /* full-bleed color blocks */
+  .block{ padding-top:4rem; padding-bottom:4rem; }
+  .block-pink{ background:var(--pink); color:var(--ink); }
+  .block-purple{ background:var(--purple); color:var(--white); }
+  .block-teal{ background:var(--teal); color:var(--ink); }
+  .mission{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(1.35rem, 1.6vw + 1rem, 1.85rem);
+    max-width:68ch; line-height:1.4;
+  }
+
+  /* approach */
+  .approach{ padding-top:5rem; padding-bottom:5rem; }
+  .approach h2{
+    font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem);
+    max-width:42ch; margin-bottom:3rem;
+  }
+  .approach-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .phase{ padding:2.25rem 1.75rem; position:relative; overflow:hidden; }
+  .phase-num{
+    font-family:var(--font-display); font-size:5rem; font-weight:700;
+    position:absolute; top:-0.5rem; right:0.75rem; opacity:0.18; line-height:1;
+  }
+  .phase h3{ font-size:1.6rem; margin-bottom:0.85rem; position:relative; }
+  .phase p{ position:relative; font-size:0.98rem; }
+  .phase-1{ background:var(--pink); color:var(--ink); }
+  .phase-2{ background:var(--purple); color:var(--white); }
+  .phase-3{ background:var(--teal); color:var(--ink); }
+
+  /* persona split */
+  .block-purple h2{ font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem); max-width:30ch; }
+  .persona-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; margin-top:2.5rem; }
+  .persona{
+    display:block; padding:2rem; border:2px solid var(--white);
+    text-decoration:none; font-family:var(--font-display);
+    font-size:1.25rem; font-weight:600; color:var(--white);
+    transition:background .15s ease, color .15s ease;
+  }
+  .persona:hover, .persona:focus-visible{ background:var(--white); color:var(--purple); }
+
+  /* videos */
+  .videos{ padding-top:5rem; padding-bottom:5rem; }
+  .videos h2{ font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem); margin-bottom:2.5rem; }
+  .video-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .video-thumb{
+    aspect-ratio:16/9; border:2px dashed var(--ink-soft);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--ink-soft); font-size:0.85rem; margin-bottom:0.85rem; text-align:center; padding:1rem;
+  }
+  .video-card p{ font-size:0.95rem; color:var(--ink-soft); }
+
+  /* footer */
+  .site-footer{ padding-top:3.5rem; padding-bottom:3.5rem; }
+  .footer-inner{
+    display:flex; flex-wrap:wrap; justify-content:space-between;
+    align-items:flex-end; gap:2rem;
+  }
+  .wordmark-small{ font-family:var(--font-display); font-weight:700; font-size:1.2rem; }
+  .footer-tagline{ margin-top:0.35rem; font-size:0.95rem; }
+  .footer-links{ display:flex; gap:1.5rem; }
+  .footer-links a{ font-weight:600; text-decoration:none; }
+  .footer-links a:hover{ text-decoration:underline; }
+  .footer-copy{ width:100%; font-size:0.85rem; margin-top:1.5rem; opacity:0.75; }
+
+  a:focus-visible, .btn:focus-visible{ outline:3px solid var(--ink); outline-offset:3px; }
+
+  @media (max-width:860px){
+    .nav-links{ display:none; }
+    .approach-grid{ grid-template-columns:1fr; }
+    .persona-grid{ grid-template-columns:1fr; }
+    .video-grid{ grid-template-columns:1fr; }
+  }
+</style>
+<noscript><style>.reveal{ opacity:1 !important; transform:none !important; }</style></noscript>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="#top">Tamil Founder Mind</a>
+    <nav class="nav-links">
+      <a href="#approach">Approach</a>
+      <a href="#videos">Videos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <!-- TODO: replace # with your real YouTube channel URL -->
+    <a class="btn" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap">
+    <div class="hero-shapes" aria-hidden="true">
+      <span class="shape shape-pink"></span>
+      <span class="shape shape-purple"></span>
+      <span class="shape shape-teal"></span>
+    </div>
+    <div class="hero-content">
+      <h1>Startup Thinking. In Tamil.</h1>
+      <p class="hero-sub">Real startup lessons, in the language you think in — not the one you had to learn business in.</p>
+      <div class="hero-ctas">
+        <!-- TODO: replace # with your real YouTube channel URL -->
+        <a class="btn" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+        <a class="link-scroll" href="#approach">See the framework ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block block-pink">
+    <div class="wrap">
+      <p class="mission reveal">Most startup advice online assumes you think in English. Tamil Founder Mind doesn't. Every video breaks down real business thinking — validation, pricing, hiring, negotiation — the way you'd explain it to a friend over filter coffee, not the way a pitch deck explains it to an investor.</p>
+    </div>
+  </section>
+
+  <section class="approach wrap" id="approach">
+    <h2 class="reveal">Every founder's journey follows the same three phases. Most channels only cover the first one.</h2>
+    <div class="approach-grid">
+      <article class="phase phase-1 reveal">
+        <span class="phase-num">1</span>
+        <h3>Build</h3>
+        <p>Validate the idea before you spend a rupee on it. First customers, first version, first no's — and what to actually do with them.</p>
+      </article>
+      <article class="phase phase-2 reveal">
+        <span class="phase-num">2</span>
+        <h3>Automate</h3>
+        <p>The unglamorous systems that let a business run without you standing over it every hour — pricing logic, hiring checklists, the tools that do the repeating for you.</p>
+      </article>
+      <article class="phase phase-3 reveal">
+        <span class="phase-num">3</span>
+        <h3>Sustain</h3>
+        <p>Staying in business long enough to matter. Cash flow discipline, retention over acquisition, and the plans for the year nobody claps for.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="block block-purple">
+    <div class="wrap">
+      <h2 class="reveal">Where are you starting from?</h2>
+      <div class="persona-grid">
+        <!-- TODO: point these at specific playlists once you have them -->
+        <a class="persona reveal" href="#" target="_blank" rel="noopener"><span>Still deciding if I should start</span></a>
+        <a class="persona reveal" href="#" target="_blank" rel="noopener"><span>Already building something</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="videos wrap" id="videos">
+    <h2 class="reveal">Recent videos</h2>
+    <div class="video-grid">
+      <!-- TODO: replace these 3 placeholders with real thumbnails + titles + links -->
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer block-teal" id="contact">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="wordmark-small">Tamil Founder Mind</p>
+      <p class="footer-tagline">For Tamil entrepreneurs.</p>
+    </div>
+    <div class="footer-links">
+      <!-- TODO: replace these with real links -->
+      <a href="#" target="_blank" rel="noopener">YouTube</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:hello@example.com">Email</a>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> Tamil Founder Mind</p>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  }
+</script>
+
+</body>
+</html>
