@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!--
+  TODO before publishing:
+  1. Replace every href="#" (YouTube, Instagram, playlist links) with your real URLs — search "TODO" in this file.
+  2. Replace mailto:hello@example.com with your real contact email.
+  3. Swap the 3 placeholder video cards near the bottom with real thumbnails + titles.
+  4. Add Tamil copy back in whenever you're ready — this pass is English-only on request.
+  5. If you register a custom domain later, add a file literally named "CNAME" (no extension) at the repo root containing just the domain, e.g. tamilfoundermind.com
+  6. This page loads Three.js from a CDN for the 3D hero shapes (~600KB, cached after first visit). If you'd rather drop it, delete the #hero-canvas element and the Three.js script block at the bottom.
+-->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tamil Founder Mind — Startup Thinking, In Tamil</title>
+<meta name="description" content="Real startup lessons in Tamil — validation, pricing, hiring, and cash flow, explained the way you'd explain it to a friend, not a pitch deck.">
+<meta property="og:title" content="Tamil Founder Mind">
+<meta property="og:description" content="Real startup lessons in Tamil — the way you'd explain it to a friend, not a pitch deck.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#090A14">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Thambi+2:wght@400;500;600;700;800&family=Work+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#090A14;
+    --surface:#111326;
+    --surface-2:#191B36;
+    --violet:#9263F7;
+    --cyan:#69F8FF;
+    --pink:#FD81FF;
+    --text:#F4F5FA;
+    --text-muted:#A9A8BD;
+    --font-display:'Baloo Thambi 2', sans-serif;
+    --font-body:'Work Sans', sans-serif;
+    --max:1120px;
+    --radius:10px;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    font-family:var(--font-body);
+    color:var(--text);
+    background:var(--bg);
+    line-height:1.6;
+    font-size:17px;
+    overflow-x:hidden;
+  }
+  .wrap{ max-width:var(--max); margin:0 auto; padding:0 1.5rem; position:relative; z-index:1; }
+  h1,h2,h3{ font-family:var(--font-display); line-height:1.15; font-weight:700; }
+  #top,#approach,#videos,#contact{ scroll-margin-top:5rem; }
+  a{ color:inherit; }
+
+  /* subtle full-page grain for tactile depth */
+  .grain{
+    position:fixed; inset:0; z-index:9999; pointer-events:none; opacity:0.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ambient glow blobs — decorative, sit behind content within each positioned section */
+  .glow{ position:absolute; border-radius:50%; filter:blur(90px); pointer-events:none; z-index:-1; }
+
+  /* header */
+  .site-header{
+    position:sticky; top:0; z-index:50;
+    background:var(--surface);
+    border-bottom:1px solid var(--surface-2);
+  }
+  .header-inner{
+    display:flex; align-items:center; justify-content:space-between;
+    gap:1.5rem; flex-wrap:wrap; row-gap:0.75rem;
+    padding-top:1rem; padding-bottom:1rem;
+  }
+  .wordmark{
+    font-family:var(--font-display); font-weight:700;
+    font-size:1.35rem; text-decoration:none; color:var(--text);
+  }
+  .nav-links{ display:flex; gap:2rem; }
+  .nav-links a{
+    text-decoration:none; font-weight:500; font-size:0.95rem; color:var(--text-muted);
+  }
+  .nav-links a:hover{ color:var(--text); }
+
+  .btn{
+    display:inline-block; font-family:var(--font-body); font-weight:600;
+    font-size:0.95rem; padding:0.75rem 1.5rem; text-decoration:none;
+    border:none; border-radius:var(--radius);
+    background:linear-gradient(135deg, var(--pink), var(--violet));
+    color:var(--bg);
+    box-shadow:0 6px 20px -6px rgba(253,129,255,0.5);
+    transition:transform .15s ease, box-shadow .15s ease;
+  }
+  .btn:hover{ transform:translateY(-2px); box-shadow:0 10px 28px -6px rgba(253,129,255,0.65); }
+
+  /* hero */
+  .hero{ position:relative; z-index:0; padding-top:5rem; padding-bottom:5rem; }
+  .hero-content{ max-width:760px; position:relative; z-index:2; }
+  .hero h1{
+    font-size:clamp(2.75rem, 5vw + 1rem, 4.75rem);
+    margin-bottom:1.25rem; color:var(--text);
+  }
+  .grad-text{
+    background:linear-gradient(120deg, var(--violet), var(--pink));
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero-sub{
+    font-size:1.2rem; color:var(--text-muted); max-width:52ch; margin-bottom:2rem;
+  }
+  .hero-ctas{ display:flex; align-items:center; gap:1.75rem; flex-wrap:wrap; }
+  .link-scroll{
+    font-weight:600; text-decoration:none; color:var(--text);
+    border-bottom:2px solid var(--cyan);
+  }
+
+  .hero-shapes{ position:absolute; top:-2rem; right:-2rem; width:420px; height:420px; max-width:100%; z-index:1; }
+  #hero-canvas{ width:100%; height:100%; display:block; }
+
+  @media (prefers-reduced-motion:no-preference){
+    .hero-content{ animation:fadeUp .7s ease-out; }
+    .hero-shapes{ animation:fadeUp .9s ease-out; }
+  }
+  @keyframes fadeUp{ from{ opacity:0; transform:translateY(16px);} to{ opacity:1; transform:translateY(0);} }
+
+  @media (max-width:860px){ .hero-shapes{ display:none; } }
+
+  /* scroll-reveal system */
+  .reveal{ opacity:1; transform:none; }
+  @media (prefers-reduced-motion:no-preference){
+    .reveal{ opacity:0; transform:translateY(28px); transition:opacity .6s ease, transform .6s ease; }
+    .reveal.in-view{ opacity:1; transform:translateY(0); }
+    .phase:nth-child(1){ transition-delay:0s; }
+    .phase:nth-child(2){ transition-delay:.12s; }
+    .phase:nth-child(3){ transition-delay:.24s; }
+    .persona:nth-child(1){ transition-delay:0s; }
+    .persona:nth-child(2){ transition-delay:.12s; }
+    .video-card:nth-child(1){ transition-delay:0s; }
+    .video-card:nth-child(2){ transition-delay:.12s; }
+    .video-card:nth-child(3){ transition-delay:.24s; }
+  }
+
+  /* full-width surface sections */
+  .block{ position:relative; z-index:0; padding-top:4rem; padding-bottom:4rem; }
+  .block-surface{ background:var(--surface); }
+  .block-surface-2{ background:var(--surface-2); }
+  .mission{
+    font-family:var(--font-display); font-weight:500;
+    font-size:clamp(1.35rem, 1.6vw + 1rem, 1.85rem);
+    max-width:68ch; line-height:1.4; color:var(--text);
+  }
+
+  /* approach */
+  .approach{ position:relative; z-index:0; padding-top:5rem; padding-bottom:5rem; }
+  .approach h2{ font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem); max-width:42ch; margin-bottom:3rem; color:var(--text); }
+  .approach-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .phase{
+    background:rgba(25,27,54,0.55);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border:1px solid rgba(244,245,250,0.08);
+    border-top:3px solid transparent;
+    border-radius:var(--radius);
+    padding:2.25rem 1.75rem; position:relative;
+    transition:transform .15s ease-out, box-shadow .15s ease;
+  }
+  .phase-index{ display:block; font-size:0.8rem; font-weight:700; letter-spacing:0.05em; color:var(--text-muted); margin-bottom:0.9rem; }
+  .phase-icon{ width:46px; height:46px; border-radius:50%; display:flex; align-items:center; justify-content:center; margin-bottom:1.25rem; }
+  .phase-icon svg{ width:22px; height:22px; }
+  .phase h3{ font-size:1.6rem; margin-bottom:0.85rem; color:var(--text); }
+  .phase p{ font-size:0.98rem; color:var(--text-muted); }
+  .phase-1{ border-top-color:var(--violet); box-shadow:0 -6px 24px -12px rgba(146,99,247,0.6); }
+  .phase-1 .phase-icon{ background:rgba(146,99,247,0.16); color:var(--violet); }
+  .phase-2{ border-top-color:var(--cyan); box-shadow:0 -6px 24px -12px rgba(105,248,255,0.6); }
+  .phase-2 .phase-icon{ background:rgba(105,248,255,0.16); color:var(--cyan); }
+  .phase-3{ border-top-color:var(--pink); box-shadow:0 -6px 24px -12px rgba(253,129,255,0.6); }
+  .phase-3 .phase-icon{ background:rgba(253,129,255,0.16); color:var(--pink); }
+
+  /* persona split */
+  .block-surface-2 h2{ font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem); max-width:30ch; color:var(--text); }
+  .persona-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:1.5rem; margin-top:2.5rem; }
+  .persona{
+    display:block; padding:2rem;
+    background:rgba(17,19,38,0.55);
+    backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px);
+    border-radius:var(--radius);
+    border:1px solid var(--violet);
+    text-decoration:none; font-family:var(--font-display);
+    font-size:1.25rem; font-weight:600; color:var(--text);
+    transition:background .15s ease, color .15s ease, transform .15s ease-out;
+  }
+  .persona:hover, .persona:focus-visible{ background:var(--violet); color:var(--text); }
+
+  /* videos */
+  .videos{ padding-top:5rem; padding-bottom:5rem; }
+  .videos h2{ font-size:clamp(1.75rem, 2vw + 1rem, 2.5rem); margin-bottom:2.5rem; color:var(--text); }
+  .video-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:1.5rem; }
+  .video-thumb{
+    aspect-ratio:16/9; border:2px dashed var(--text-muted); border-radius:var(--radius);
+    display:flex; align-items:center; justify-content:center;
+    color:var(--text-muted); font-size:0.85rem; margin-bottom:0.85rem; text-align:center; padding:1rem;
+  }
+  .video-card p{ font-size:0.95rem; color:var(--text-muted); }
+
+  /* footer */
+  .site-footer{ padding-top:3.5rem; padding-bottom:3.5rem; background:var(--surface); }
+  .footer-inner{ display:flex; flex-wrap:wrap; justify-content:space-between; align-items:flex-end; gap:2rem; }
+  .wordmark-small{ font-family:var(--font-display); font-weight:700; font-size:1.2rem; color:var(--text); }
+  .footer-tagline{ margin-top:0.35rem; font-size:0.95rem; color:var(--text-muted); }
+  .footer-links{ display:flex; gap:1.5rem; }
+  .footer-links a{ font-weight:600; text-decoration:none; color:var(--text); }
+  .footer-links a:hover{ color:var(--cyan); text-decoration:underline; }
+  .footer-copy{ width:100%; font-size:0.85rem; margin-top:1.5rem; color:var(--text-muted); opacity:0.8; }
+
+  a:focus-visible, .btn:focus-visible{ outline:3px solid var(--cyan); outline-offset:3px; }
+
+  @media (max-width:860px){
+    .nav-links{ display:none; }
+    .approach-grid{ grid-template-columns:1fr; }
+    .persona-grid{ grid-template-columns:1fr; }
+    .video-grid{ grid-template-columns:1fr; }
+  }
+</style>
+<noscript><style>.reveal{ opacity:1 !important; transform:none !important; }</style></noscript>
+</head>
+<body>
+
+<div class="grain" aria-hidden="true"></div>
+
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="wordmark" href="#top">Tamil Founder Mind</a>
+    <nav class="nav-links">
+      <a href="#approach">Approach</a>
+      <a href="#videos">Videos</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <!-- TODO: replace # with your real YouTube channel URL -->
+    <a class="btn" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <section class="hero wrap">
+    <div class="glow" style="width:420px;height:420px;top:-6rem;right:-4rem;background:var(--violet);opacity:0.3;" aria-hidden="true"></div>
+    <div class="glow" style="width:320px;height:320px;bottom:-4rem;left:-6rem;background:var(--pink);opacity:0.2;" aria-hidden="true"></div>
+    <div class="hero-shapes" aria-hidden="true">
+      <canvas id="hero-canvas"></canvas>
+    </div>
+    <div class="hero-content">
+      <h1>Startup Thinking. In <span class="grad-text">Tamil</span>.</h1>
+      <p class="hero-sub">Real startup lessons, in the language you think in — not the one you had to learn business in.</p>
+      <div class="hero-ctas">
+        <!-- TODO: replace # with your real YouTube channel URL -->
+        <a class="btn" href="#" target="_blank" rel="noopener">Watch on YouTube</a>
+        <a class="link-scroll" href="#approach">See the framework ↓</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="block block-surface">
+    <div class="wrap">
+      <p class="mission reveal">Most startup advice online assumes you think in English. Tamil Founder Mind doesn't. Every video breaks down real business thinking — validation, pricing, hiring, negotiation — the way you'd explain it to a friend over filter coffee, not the way a pitch deck explains it to an investor.</p>
+    </div>
+  </section>
+
+  <section class="approach wrap" id="approach">
+    <div class="glow" style="width:500px;height:500px;top:0;left:50%;transform:translateX(-50%);background:var(--cyan);opacity:0.14;" aria-hidden="true"></div>
+    <h2 class="reveal">Every founder's journey follows the same three phases. Most channels only cover the first one.</h2>
+    <div class="approach-grid">
+      <article class="phase phase-1 reveal">
+        <span class="phase-index">01</span>
+        <div class="phase-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="14" width="16" height="6" rx="1"/><rect x="7" y="8" width="10" height="6" rx="1"/><rect x="10" y="2" width="4" height="6" rx="1"/></svg>
+        </div>
+        <h3>Build</h3>
+        <p>Validate the idea before you spend a rupee on it. First customers, first version, first no's — and what to actually do with them.</p>
+      </article>
+      <article class="phase phase-2 reveal">
+        <span class="phase-index">02</span>
+        <div class="phase-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 0 1 14.5-4.5M20 12a8 8 0 0 1-14.5 4.5"/><polyline points="17 3 18.5 7.5 14 7.5"/><polyline points="7 21 5.5 16.5 10 16.5"/></svg>
+        </div>
+        <h3>Automate</h3>
+        <p>The unglamorous systems that let a business run without you standing over it every hour — pricing logic, hiring checklists, the tools that do the repeating for you.</p>
+      </article>
+      <article class="phase phase-3 reveal">
+        <span class="phase-index">03</span>
+        <div class="phase-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 17 9 11 13 15 21 6"/><polyline points="15 6 21 6 21 12"/></svg>
+        </div>
+        <h3>Sustain</h3>
+        <p>Staying in business long enough to matter. Cash flow discipline, retention over acquisition, and the plans for the year nobody claps for.</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="block block-surface-2">
+    <div class="glow" style="width:450px;height:450px;top:-8rem;right:-6rem;background:var(--violet);opacity:0.22;" aria-hidden="true"></div>
+    <div class="wrap">
+      <h2 class="reveal">Where are you starting from?</h2>
+      <div class="persona-grid">
+        <!-- TODO: point these at specific playlists once you have them -->
+        <a class="persona reveal" href="#" target="_blank" rel="noopener"><span>Still deciding if I should start</span></a>
+        <a class="persona reveal" href="#" target="_blank" rel="noopener"><span>Already building something</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="videos wrap" id="videos">
+    <h2 class="reveal">Recent videos</h2>
+    <div class="video-grid">
+      <!-- TODO: replace these 3 placeholders with real thumbnails + titles + links -->
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+      <div class="video-card reveal">
+        <div class="video-thumb">Swap in your video thumbnail</div>
+        <p>Video title goes here</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="site-footer" id="contact">
+  <div class="wrap footer-inner">
+    <div>
+      <p class="wordmark-small">Tamil Founder Mind</p>
+      <p class="footer-tagline">For Tamil entrepreneurs.</p>
+    </div>
+    <div class="footer-links">
+      <!-- TODO: replace these with real links -->
+      <a href="#" target="_blank" rel="noopener">YouTube</a>
+      <a href="#" target="_blank" rel="noopener">Instagram</a>
+      <a href="mailto:hello@example.com">Email</a>
+    </div>
+    <p class="footer-copy">© <span id="year"></span> Tamil Founder Mind</p>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  // scroll reveal
+  if (window.matchMedia('(prefers-reduced-motion: no-preference)').matches && 'IntersectionObserver' in window) {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+  } else {
+    document.querySelectorAll('.reveal').forEach(el => el.classList.add('in-view'));
+  }
+
+  // mouse-tracked 3D tilt on cards — desktop-with-mouse only
+  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches &&
+      window.matchMedia('(prefers-reduced-motion: no-preference)').matches) {
+    document.querySelectorAll('.phase, .persona').forEach(card => {
+      card.style.transformStyle = 'preserve-3d';
+      card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = (e.clientX - rect.left) / rect.width - 0.5;
+        const y = (e.clientY - rect.top) / rect.height - 0.5;
+        card.style.transform = 'perspective(600px) rotateX(' + (-y * 8).toFixed(2) + 'deg) rotateY(' + (x * 8).toFixed(2) + 'deg) translateY(-2px)';
+      });
+      card.addEventListener('mouseleave', () => { card.style.transform = ''; });
+    });
+  }
+
+  // 3D floating shapes in the hero — skipped if Three.js failed to load or on small screens
+  (function(){
+    const canvas = document.getElementById('hero-canvas');
+    if (!canvas || typeof THREE === 'undefined' || window.innerWidth <= 860) return;
+
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(45, canvas.clientWidth / canvas.clientHeight, 0.1, 100);
+    camera.position.set(0, 0, 9);
+
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setSize(canvas.clientWidth, canvas.clientHeight, false);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.55));
+    const lightA = new THREE.PointLight(0x9263f7, 2.2, 20); lightA.position.set(-4, 3, 4); scene.add(lightA);
+    const lightB = new THREE.PointLight(0x69f8ff, 2.0, 20); lightB.position.set(4, -2, 4); scene.add(lightB);
+
+    function makeShape(color, x, y, z, scale){
+      const mat = new THREE.MeshStandardMaterial({ color: color, emissive: color, emissiveIntensity: 0.35, roughness: 0.25, metalness: 0.35 });
+      const mesh = new THREE.Mesh(new THREE.IcosahedronGeometry(1, 0), mat);
+      mesh.position.set(x, y, z);
+      mesh.scale.setScalar(scale);
+      scene.add(mesh);
+      return mesh;
+    }
+
+    const shapes = [
+      makeShape(0x9263f7, -1.6, 0.6, 0, 1.15),
+      makeShape(0x69f8ff, 1.8, -0.8, -1, 0.85),
+      makeShape(0xfd81ff, 0.3, 1.6, -1.5, 0.65)
+    ];
+
+    function resize(){
+      const w = canvas.clientWidth, h = canvas.clientHeight;
+      if (!w || !h) return;
+      camera.aspect = w / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(w, h, false);
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    let frame = 0;
+    function animate(){
+      if (!reduceMotion) frame++;
+      shapes.forEach((mesh, i) => {
+        const speed = 0.003 + i * 0.0012;
+        mesh.rotation.x = frame * speed;
+        mesh.rotation.y = frame * speed * 1.4;
+        mesh.position.y += Math.sin((frame + i * 60) * 0.01) * 0.0025;
+      });
+      renderer.render(scene, camera);
+      if (!reduceMotion) requestAnimationFrame(animate);
+    }
+    animate();
+  })();
+</script>
+
+</body>
+</html>
